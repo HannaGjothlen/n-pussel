@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { PuzzleBoard } from "./PuzzleBoard/PuzzleBoard";
-import { PUZZLE_ROWS, PUZZLE_COLS } from "./config";
+import { AppPresenter } from "./AppPresenter";
 import "./App.css";
 
 function App() {
-  const totalTiles = PUZZLE_ROWS * PUZZLE_COLS;
-  const solvedBoard = Array.from({ length: totalTiles }, (_, i) => (i + 1) % totalTiles);
-
+  const [presenter] = useState(() => new AppPresenter());
   const [board, setBoard] = useState<number[]>([]);
   const [message, setMessage] = useState("");
 
@@ -15,63 +13,21 @@ function App() {
   }, []);
 
   const shuffleBoard = () => {
-    const arr = [...solvedBoard];
-    for (let i = arr.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
-    setBoard(arr);
+    const newBoard = presenter.createShuffledBoard();
+    setBoard(newBoard);
     setMessage("");
   };
 
   const handleTileClick = (index: number) => {
-    const emptyIndex = board.indexOf(0);
-
-    const row = Math.floor(index / PUZZLE_COLS);
-    const col = index % PUZZLE_COLS;
-    const emptyRow = Math.floor(emptyIndex / PUZZLE_COLS);
-    const emptyCol = emptyIndex % PUZZLE_COLS;
-
-    // Flytta i samma rad
-    if (row === emptyRow && col !== emptyCol) {
-      const newBoard = [...board];
-      if (col < emptyCol) {
-        // flytta höger
-        for (let c = emptyCol; c > col; c--) {
-          newBoard[row * PUZZLE_COLS + c] = newBoard[row * PUZZLE_COLS + c - 1];
-        }
-      } else {
-        // flytta vänster
-        for (let c = emptyCol; c < col; c++) {
-          newBoard[row * PUZZLE_COLS + c] = newBoard[row * PUZZLE_COLS + c + 1];
-        }
-      }
-      newBoard[index] = 0;
+    const newBoard = presenter.handleTileClick(board, index);
+    if (newBoard) {
       setBoard(newBoard);
+      checkWin(newBoard);
     }
-
-    // Flytta i samma kolumn
-    if (col === emptyCol && row !== emptyRow) {
-      const newBoard = [...board];
-      if (row < emptyRow) {
-        // flytta nedåt
-        for (let r = emptyRow; r > row; r--) {
-          newBoard[r * PUZZLE_COLS + col] = newBoard[(r - 1) * PUZZLE_COLS + col];
-        }
-      } else {
-        // flytta uppåt
-        for (let r = emptyRow; r < row; r++) {
-          newBoard[r * PUZZLE_COLS + col] = newBoard[(r + 1) * PUZZLE_COLS + col];
-        }
-      }
-      newBoard[index] = 0;
-      setBoard(newBoard);
-    }
-    checkWin();
   };
 
-  const checkWin = () => {
-    const isSolved = board.every((val, i) => val === solvedBoard[i]);
+  const checkWin = (currentBoard: number[]) => {
+    const isSolved = presenter.checkWinCondition(currentBoard);
     if (isSolved) {
       setMessage("🎉 Grattis, du löste pusslet!");
     }
