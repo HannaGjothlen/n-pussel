@@ -1,0 +1,21 @@
+.puzzle-board {
+    display: grid;
+    gap: 5px;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  .puzzle-tile {
+    aspect-ratio: 1 / 1;
+    font-size: clamp(16px, 4vw, 24px);
+    font-weight: bold;
+    background: #FFB6C1;
+    border: 1px solid #999;
+    border-radius: 8px;
+  }
+  
+  .puzzle-tile.empty {
+    background: #eee;
+  }
+  

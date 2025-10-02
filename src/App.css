@@ -36,3 +36,19 @@
     transform: rotate(360deg);
   }
 }
+
+.shuffle-button {
+  padding: 15px 30px;
+  font-size: 18px;
+  font-weight: bold;
+  background-color: #FFB6C1;
+  color: black;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.shuffle-button:hover {
+  background-color: #45a049;
+}
