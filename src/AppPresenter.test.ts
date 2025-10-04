@@ -23,7 +23,7 @@ describe('AppPresenter', () => {
 
   describe('checkWinCondition', () => {
     test('returns true for solved board', () => {
-      const solvedBoard = presenter.getSolvedBoard();
+      const solvedBoard = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0];
       expect(presenter.checkWinCondition(solvedBoard)).toBe(true);
     });
 
@@ -75,17 +75,5 @@ describe('AppPresenter', () => {
     });
   });
 
-  describe('getSolvedBoard', () => {
-    test('returns correct solved board pattern', () => {
-      const solvedBoard = presenter.getSolvedBoard();
-      const expectedBoard = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0];
-      expect(solvedBoard).toEqual(expectedBoard);
-    });
-  });
 
-  describe('getTotalTiles', () => {
-    test('returns correct total number of tiles', () => {
-      expect(presenter.getTotalTiles()).toBe(16);
-    });
-  });
 });

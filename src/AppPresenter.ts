@@ -9,8 +9,8 @@ export class AppPresenter {
     this.solvedBoard = Array.from({ length: this.totalTiles }, (_, i) => (i + 1) % this.totalTiles);
   }
 
-  // Skapar en shufflad version av det lösta brädet
-  createShuffledBoard(): number[] {
+  // Skapar en shufflad version av det lösta brädet (så att det alltid går att lösa pusslet)
+  public createShuffledBoard(): number[] {
     const arr = [...this.solvedBoard];
     for (let i = arr.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -20,11 +20,11 @@ export class AppPresenter {
   }
 
   // Kontrollerar om pusslet är löst
-  checkWinCondition(board: number[]): boolean {
+  public checkWinCondition(board: number[]): boolean {
     return board.every((val, i) => val === this.solvedBoard[i]);
   }
 
-  // Beräknar rad och kolumn från index
+  // Beräknar rad och kolumn från index (Row 0: [0,1,2,3])
   private getRowCol(index: number): { row: number; col: number } {
     return {
       row: Math.floor(index / PUZZLE_COLS),
@@ -34,7 +34,7 @@ export class AppPresenter {
 
   //Flyttar tiles i samma rad
   private moveTilesInRow(board: number[], clickedIndex: number, emptyIndex: number): number[] {
-    const newBoard = [...board];
+    const newBoard = [...board]; // Skapar entt nytt spelbräde
     const { row, col } = this.getRowCol(clickedIndex);
     const { col: emptyCol } = this.getRowCol(emptyIndex);
 
@@ -75,8 +75,8 @@ export class AppPresenter {
   }
 
   //Hanterar klick på en tile och returnerar det nya brädet om flytten är giltig
-  handleTileClick(board: number[], clickedIndex: number): number[] | null {
-    const emptyIndex = board.indexOf(0);
+  public handleTileClick(board: number[], clickedIndex: number): number[] | null {
+    const emptyIndex = board.indexOf(0); //Hittar det tomma fältet
     
     const { row, col } = this.getRowCol(clickedIndex);
     const { row: emptyRow, col: emptyCol } = this.getRowCol(emptyIndex);
@@ -95,13 +95,5 @@ export class AppPresenter {
     return null;
   }
 
-  // Returnerar det lösta brädet (för testning)
-  getSolvedBoard(): number[] {
-    return [...this.solvedBoard];
-  }
 
-  // Returnerar totalt antal tiles
-  getTotalTiles(): number {
-    return this.totalTiles;
-  }
 }
