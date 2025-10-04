@@ -94,6 +94,4 @@ export class AppPresenter {
     // Ingen giltig flytt
     return null;
   }
-
-
 }
