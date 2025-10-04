@@ -74,6 +74,4 @@ describe('AppPresenter', () => {
       expect(result![3]).toBe(0); // Tomrum flyttas till klickad position
     });
   });
-
-
 });
