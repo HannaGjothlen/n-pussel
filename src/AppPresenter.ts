@@ -34,7 +34,7 @@ export class AppPresenter {
 
   //Flyttar tiles i samma rad
   private moveTilesInRow(board: number[], clickedIndex: number, emptyIndex: number): number[] {
-    const newBoard = [...board]; // Skapar entt nytt spelbräde
+    const newBoard = [...board]; // Skapar ett nytt spelbräde
     const { row, col } = this.getRowCol(clickedIndex);
     const { col: emptyCol } = this.getRowCol(emptyIndex);
 
